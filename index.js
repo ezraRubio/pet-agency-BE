@@ -22,7 +22,7 @@ app.use("/login", logIn);
 app.use("/search", search);
 
 const DB_URL =
-  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.dpcx6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.dpcx6.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 3300;
 
 mongoose
