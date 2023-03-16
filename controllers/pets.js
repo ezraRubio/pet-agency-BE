@@ -1,6 +1,6 @@
 import Pet from "../models/Pet.js";
 import User from "../models/User.js";
-import cloudinary from "../utils/cloudinary.cjs";
+import cloudinary from "../src/utils/cloudinary.cjs";
 
 export const getPets = async (req, res) => {
   try {
