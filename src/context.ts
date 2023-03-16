@@ -1,21 +1,25 @@
 import { Controller } from "./controller";
+import { PetController } from "./pet/pet.controller";
+import { PetRepository } from "./pet/pet.repository";
+import { PetService } from "./pet/pet.service";
+import { SearchController } from "./pet/search.controller";
 // import { HealthController } from "./health/health.controller";
-// import { MailingListController } from "./mailing-list/mailing.list.controller";
-// import { MailingListRepository } from "./mailing-list/mailing.list.repository";
-// import { MailingListService } from "./mailing-list/mailing.list.service";
-
 
 //Repositories: 
-// const mailingListRepository = new MailingListRepository();
+const petRepository = new PetRepository();
 
 //Services:
-// const mailingListService = new MailingListService(mailingListRepository);
+const petService = new PetService(petRepository);
 
 //Controllers:
-// const mailingListController = new MailingListController(mailingListService);
+const petController = new PetController(petService);
+const searchController = new SearchController(petService);
 // const healthController = new HealthController();
 
 export const UnprotectedControllers = [
-    // mailingListController,
-    // healthController,
+    searchController
+].map((c: Controller) => c.router);
+
+export const ProtectedControllers = [
+    petController
 ].map((c: Controller) => c.router);
