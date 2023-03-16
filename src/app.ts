@@ -6,6 +6,6 @@ import { UnprotectedControllers } from './context';
 
 export const app = express()
   .use(cors({ origin: config.ALLOWED_ORIGINS }))
+  // .use("/", UnprotectedControllers)
 //   .use(bodyParser.json)
-  .use("/", UnprotectedControllers)
 //   .use(httpErrorHandler)

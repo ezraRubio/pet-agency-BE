@@ -10,6 +10,10 @@ const appConfig = {
   PORT: process.env.PORT,
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
   URI: process.env.MONGO_URI,
+  SECRET: process.env.JWT_SECRET,
+  CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
+  CLOUDINARY_KEY: process.env.CLOUDINARY_KEY,
+  CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET,
 }
 
 try {
