@@ -20,7 +20,6 @@ export class SearchController {
   }
 
   search(searchQuery?: SearchDTO) {
-    console.log("controller", searchQuery);
     return this.petService.getAllPets(searchQuery);
   }
 }
