@@ -1,19 +1,26 @@
-import {Request, Response, Router} from "express";
+import { Request, Response, Router } from "express";
+import { Status, Type } from "./pet.model";
+import { searchQueryValidator } from "./pet.request.validator";
 import { PetService } from "./pet.service";
+import { SearchDTO } from "./pet.types";
 
-const search = "/search"
+const search = "/search";
 
 export class SearchController {
-    router = Router()
+  router = Router();
 
-    constructor(private petService: PetService) {
-        this.router.get(search, (req: Request, res: Response) => {
-            this.search(req.query.type as string).then(r=>res.json(r))
-        })
-    }
+  constructor(private petService: PetService) {
+    this.router.get(
+      search,
+      searchQueryValidator,
+      (req: Request, res: Response) => {
+        this.search(req.query as SearchDTO).then((r) => res.json(r));
+      }
+    );
+  }
 
-    search(petType: string){
-        console.log("controller", petType)
-        return this.petService.getAllPets(petType);
-    }
+  search(searchQuery?: SearchDTO) {
+    console.log("controller", searchQuery);
+    return this.petService.getAllPets(searchQuery);
+  }
 }
