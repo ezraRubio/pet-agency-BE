@@ -9,7 +9,7 @@ import {
   deleteSavedPet,
   getPetsByUser
 } from "../controllers/pets.js";
-import { upload } from "../utils/multer.js";
+import { upload } from "../src/utils/multer.js";
 import admin from '../middleware/admin.js'
 
 export const petRouter = express.Router();
