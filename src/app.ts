@@ -5,7 +5,7 @@ import { ProtectedControllers, UnprotectedControllers } from './context';
 import { httpErrorHandler } from './error/http.error.handler';
 
 export const app = express()
-  .use(cors({ origin: config.ALLOWED_ORIGINS }))
+  .use(cors())
   .enable("trust proxy")
   .disable('x-powered-by')
   .use(express.json())
