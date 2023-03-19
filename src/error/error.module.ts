@@ -35,3 +35,10 @@ export class DuplicateEntryError extends AppError {
     super();
   }
 }
+
+export class NotFoundError extends AppError {
+  status = 404;
+  constructor(public code: ErrorCodes, public type: ErrorType) {
+    super();
+  }
+}
