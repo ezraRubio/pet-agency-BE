@@ -1,6 +1,6 @@
-import { ErrorCodes } from "src/error/error.codes";
-import { NotFoundError } from "src/error/error.module";
-import { ErrorType } from "src/error/error.types";
+import { ErrorCodes } from "../error/error.codes";
+import { NotFoundError } from "../error/error.module";
+import { ErrorType } from "../error/error.types";
 import { Pet } from "./pet.model";
 import { PetRepository } from "./pet.repository";
 import { SearchDTO } from "./pet.types";
@@ -9,11 +9,12 @@ export class PetService {
   constructor(private petRepository: PetRepository) {}
 
   getAllPets = async (searchQuery: SearchDTO): Promise<Pet[]> => {
+    console.log("serv query", searchQuery)
     const pets = await this.petRepository.findAll(searchQuery);
 
     if (!pets.length)
       throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
-
+console.log("serv result", pets)
     return pets;
   };
 

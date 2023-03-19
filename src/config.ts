@@ -7,13 +7,13 @@ try {
 }
 
 const appConfig = {
-  PORT: process.env.PORT,
-  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
-  URI: process.env.MONGO_URI,
-  SECRET: process.env.JWT_SECRET,
-  CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
-  CLOUDINARY_KEY: process.env.CLOUDINARY_KEY,
-  CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET,
+  PORT: process.env.PORT as string,
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS as string,
+  URI: process.env.MONGO_URI as string,
+  SECRET: process.env.JWT_SECRET as string,
+  CLOUDINARY_NAME: process.env.CLOUDINARY_NAME as string,
+  CLOUDINARY_KEY: process.env.CLOUDINARY_KEY as string,
+  CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET as string,
 }
 
 try {
