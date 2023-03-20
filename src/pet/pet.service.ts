@@ -1,5 +1,9 @@
 import { ErrorCodes } from "../error/error.codes";
-import { AppError, NotFoundError } from "../error/error.module";
+import {
+  AppError,
+  DuplicateEntryError,
+  NotFoundError,
+} from "../error/error.module";
 import { ErrorType } from "../error/error.types";
 import { Pet } from "./pet.model";
 import { PetRepository } from "./pet.repository";
@@ -22,30 +26,31 @@ export class PetService {
 
     if (!singlePet)
       throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
-    
-      return singlePet;
+
+    return singlePet;
   };
 
-  addPet = async (data: Pet): Promise<Pet> => {
-    const newPet = await this.petRepository.addNewPet(data);
+  addPet = async (data: Pet): Promise<Boolean> => {
+    const isAdded = await this.petRepository.addNewPet(data);
 
-    if (!newPet) console.log("something went wrong") //TODO: make better error handling
-    
-    return ;
+    if (!isAdded) throw new DuplicateEntryError();
+
+    return !!isAdded;
   };
 
   editPet = async (id: string, data: Partial<Pet>): Promise<Pet> => {
-    const editedPet = await this.petRepository.editSinglePet({id}, data);
+    const editedPet = await this.petRepository.editSinglePet({ id }, data);
 
-    if (!editedPet) console.log("something went wrong") //TODO: make better error handling
-    
-    return ;
+    if (!editedPet) console.log("something went wrong"); //TODO: make better error handling
+
+    return;
   };
 
   deletePet = async (id: string): Promise<boolean> => {
-    const isDeleted = await this.petRepository.removePet({id});
+    const isDeleted = await this.petRepository.removePet({ id });
 
-    if (!isDeleted) throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+    if (!isDeleted)
+      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
 
     return !!isDeleted;
   };
