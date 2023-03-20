@@ -9,12 +9,11 @@ export class PetService {
   constructor(private petRepository: PetRepository) {}
 
   getAllPets = async (searchQuery: SearchDTO): Promise<Pet[]> => {
-    console.log("serv query", searchQuery)
     const pets = await this.petRepository.findAll(searchQuery);
 
     if (!pets.length)
       throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
-console.log("serv result", pets)
+
     return pets;
   };
 

@@ -14,6 +14,7 @@ const appConfig = {
   CLOUDINARY_NAME: process.env.CLOUDINARY_NAME as string,
   CLOUDINARY_KEY: process.env.CLOUDINARY_KEY as string,
   CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET as string,
+  TEST_DB: process.env.TEST_DB_URI as string
 }
 
 try {
