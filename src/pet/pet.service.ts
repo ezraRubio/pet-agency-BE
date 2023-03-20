@@ -41,9 +41,10 @@ export class PetService {
   editPet = async (id: string, data: Partial<Pet>): Promise<Pet> => {
     const editedPet = await this.petRepository.editSinglePet({ id }, data);
 
-    if (!editedPet) console.log("something went wrong"); //TODO: make better error handling
+    if (!editedPet)
+      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
 
-    return;
+    return editedPet;
   };
 
   deletePet = async (id: string): Promise<boolean> => {

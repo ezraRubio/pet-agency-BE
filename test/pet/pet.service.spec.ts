@@ -10,6 +10,7 @@ import { expectedPets, aPet } from "./utils";
 import { PetRepository } from "../../src/pet/pet.repository";
 import { Mongo } from "../../src/db/mongo";
 import config from "../../src/config";
+import { Status } from "../../src/pet/pet.model";
 
 describe("Pet Service", () => {
   const petRepository = new PetRepository();
@@ -20,7 +21,7 @@ describe("Pet Service", () => {
     await Mongo.pet().insertMany(expectedPets);
   });
   afterAll(async () => {
-    await Mongo.pet().deleteMany({});
+    // await Mongo.pet().deleteMany({});
     await Mongo.close();
   });
 
@@ -97,4 +98,18 @@ describe("Pet Service", () => {
       expect(isAdded).toBe(true);
     });
   });
+
+  describe("editPet", () => {
+    it("should throw an error when pet to be edited is not found",  async () => {
+      await expect(petService.editPet("nonexistent", aPet)).rejects.toThrowError(
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+      );
+    })
+
+    it("should edit an existent pet successfully", async () => {
+      const editedPet = await petService.editPet(aPet.id, {status: Status.ADOPTED});
+
+      expect(editedPet.status).toBe(Status.ADOPTED);
+    })
+  })
 });

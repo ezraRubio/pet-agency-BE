@@ -11,7 +11,9 @@ export class PetRepository {
     Mongo.pet().findOne(filter);
 
   editSinglePet = (filter: Filter<Pet>, data: Partial<Pet>) =>
-    Mongo.pet().findOneAndUpdate(filter, data);
+    Mongo.pet()
+      .findOneAndUpdate(filter, { $set: data }, { returnDocument: "after" })
+      .then((res) => res.value);
 
   removePet = (filter: Filter<Pet>): Promise<number> =>
     Mongo.pet()
