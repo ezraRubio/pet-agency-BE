@@ -21,7 +21,7 @@ describe("Pet Service", () => {
     await Mongo.pet().insertMany(expectedPets);
   });
   afterAll(async () => {
-    // await Mongo.pet().deleteMany({});
+    await Mongo.pet().deleteMany({});
     await Mongo.close();
   });
 
