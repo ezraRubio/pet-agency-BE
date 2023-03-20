@@ -1,4 +1,3 @@
-import { PetRepository } from "../../src/pet/pet.repository";
 import { Pet, Status, Type } from "../../src/pet/pet.model";
 
 export const expectedPets: Pet[] = [

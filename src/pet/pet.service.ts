@@ -1,5 +1,5 @@
 import { ErrorCodes } from "../error/error.codes";
-import { NotFoundError } from "../error/error.module";
+import { AppError, NotFoundError } from "../error/error.module";
 import { ErrorType } from "../error/error.types";
 import { Pet } from "./pet.model";
 import { PetRepository } from "./pet.repository";
@@ -43,10 +43,10 @@ export class PetService {
   };
 
   deletePet = async (id: string): Promise<boolean> => {
-    const something = await this.petRepository.removePet({id});
+    const isDeleted = await this.petRepository.removePet({id});
 
-    if (!something) return false
+    if (!isDeleted) throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
 
-    return true;
+    return !!isDeleted;
   };
 }

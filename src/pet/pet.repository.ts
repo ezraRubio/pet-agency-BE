@@ -13,7 +13,7 @@ export class PetRepository {
     Mongo.pet().findOneAndUpdate(filter, data);
 
   removePet = (filter: Filter<Pet>) => 
-    Mongo.pet().findOneAndDelete(filter)
+    Mongo.pet().deleteOne(filter).then(res => res.deletedCount);
 
   addNewPet = (data: OptionalId<Pet>): Promise<InsertOneResult<Pet>> =>
     Mongo.pet().insertOne(data); 

@@ -62,4 +62,21 @@ describe("Pet Service", () => {
       );
     });
   });
+
+  describe("deletePet", () => {
+    it("should delete a pet from db", async () => {
+      const id = "1";
+
+      const isDeleted = await petService.deletePet(id);
+
+      expect(isDeleted).toBe(true)
+    });
+    it("should throw error when deleting non existing pet", async () => {
+      const id = "nonexistent";
+
+      await expect(petService.deletePet(id)).rejects.toThrowError(
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+      );
+    })
+  })
 });
