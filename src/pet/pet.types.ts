@@ -1,10 +1,9 @@
 import { Pet, Status, Type } from "./pet.model";
-import { Pet, Status, Type } from "./pet.model";
 
-export interface SearchDTO { 
+export interface SearchDTO extends Partial<Pet> { 
     type?: Type,
     name?: string,
     status?: Status,
-    height?: string | number,
-    weight?: string | number,
+    height?: number,
+    weight?: number,
 }

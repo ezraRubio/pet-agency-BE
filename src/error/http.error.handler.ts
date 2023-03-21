@@ -22,7 +22,7 @@ export const httpErrorHandler: ErrorHandler = (
 
   const res = {
     code: code || ErrorCodes.INTERNAL_SERVER_ERROR,
-    details: details || undefined,
+    details: details,
     errors: errors || undefined
   };
 
