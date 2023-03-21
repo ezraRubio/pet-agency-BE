@@ -9,15 +9,16 @@ import { ErrorCodes } from "../../src/error/error.codes";
 import { expectedPets, aPet } from "./utils";
 import { PetRepository } from "../../src/pet/pet.repository";
 import { Mongo } from "../../src/db/mongo";
-import config from "../../src/config";
+// import config from "../../src/config";
+import {config} from "dotenv";
 import { Status } from "../../src/pet/pet.model";
-
+config()
 describe("Pet Service", () => {
   const petRepository = new PetRepository();
   const petService = new PetService(petRepository);
 
   beforeAll(async () => {
-    await Mongo.connect(config.TEST_DB);
+    await Mongo.connect(process.env.TEST_DB_URI as string);
     await Mongo.pet().insertMany(expectedPets);
   });
   afterAll(async () => {
