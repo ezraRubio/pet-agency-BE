@@ -2,13 +2,7 @@
   "name": "pet_adoption_back_end",
   "version": "1.0.0",
   "main": "dist/app.js",
-  "main": "dist/app.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "start": "node --enable-source-maps ./dist/index",
-    "lint": "eslint . --ext .ts",
-    "test": "NODE_ENV=test jest --runInBand"
     "build": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
     "start": "node --enable-source-maps ./dist/index",
@@ -16,8 +10,6 @@
     "test": "NODE_ENV=test jest --runInBand"
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "cloudinary": "^1.35.0",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.35.0",
     "cors": "^2.8.5",

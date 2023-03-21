@@ -24,7 +24,3 @@ export enum Type {
     CAT = "Cat",
     DOG = "Dog",
 }
-export enum Type {
-    CAT = "Cat",
-    DOG = "Dog",
-}

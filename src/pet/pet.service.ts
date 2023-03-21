@@ -59,7 +59,3 @@ export class PetService {
     return !!isDeleted;
   };
 }
-
-        return pets
-    }
-}
