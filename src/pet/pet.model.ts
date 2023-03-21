@@ -1,4 +1,5 @@
 export interface Pet {
+    id: string;
     type: Type,
     name: string,
     status: Status,
@@ -19,6 +20,10 @@ export enum Status {
     FOSTERED = "Fostered",
 }
 
+export enum Type {
+    CAT = "Cat",
+    DOG = "Dog",
+}
 export enum Type {
     CAT = "Cat",
     DOG = "Dog",
