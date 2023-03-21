@@ -1,4 +1,5 @@
 export interface Pet {
+    id: string;
     type: Type,
     name: string,
     status: Status,
