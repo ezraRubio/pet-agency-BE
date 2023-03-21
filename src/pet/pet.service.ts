@@ -13,10 +13,13 @@ export class PetService {
   constructor(private petRepository: PetRepository) {}
 
   getAllPets = async (searchQuery: SearchDTO): Promise<Pet[]> => {
-    const pets = await this.petRepository.findAll(searchQuery);
+    let filter: Partial<Pet> = {
+      ...searchQuery,
+      height: searchQuery.height && parseInt(searchQuery.height?.toString()),
+      weight: searchQuery.weight && parseInt(searchQuery.weight?.toString()),
+    };
 
-    if (!pets.length)
-      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
+    const pets = await this.petRepository.findAll(filter);
 
     return pets;
   };

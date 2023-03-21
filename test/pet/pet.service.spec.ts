@@ -34,12 +34,11 @@ describe("Pet Service", () => {
       expect(result[0].name).toEqual(expectedPets[1].name);
     });
 
-    it("should throw a NotFoundError when no pets are found", async () => {
+    it("should return an empty array when no pets are found", async () => {
       const searchQuery: SearchDTO = { name: "Nonexistent" };
+      const results = await petService.getAllPets(searchQuery)
 
-      await expect(petService.getAllPets(searchQuery)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
-      );
+      expect(results.length).toBe(0);
     });
 
     it("should return all pets from an empty search query", async () => {
@@ -48,6 +47,20 @@ describe("Pet Service", () => {
 
       expect(results.length).toBeGreaterThan(1);
     });
+
+    it("should search based on height when included on query", async () => {
+      const searchQuery = {height: "84"}
+      const results = await petService.getAllPets(searchQuery);
+
+      expect(results[0]?.height?.toString()).toBe(searchQuery.height);
+    })
+    
+    it("should search based on weight when included on query", async () => {
+      const searchQuery = {weight: "65"}
+      const results = await petService.getAllPets(searchQuery);
+
+      expect(results[0]?.weight?.toString()).toBe(searchQuery.weight);
+    })
   });
 
   describe("getSinglePet", () => {

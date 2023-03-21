@@ -18,9 +18,10 @@ const healthController = new HealthController();
 
 export const UnprotectedControllers = [
     searchController,
-    healthController
-].map((c: Controller) => c.router);
-
-export const ProtectedControllers = [
+    healthController,
     petController
 ].map((c: Controller) => c.router);
+
+// export const ProtectedControllers = [
+//     petController
+// ].map((c: Controller) => c.router);

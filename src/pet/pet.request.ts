@@ -7,7 +7,7 @@ export const searchSchema = yup.object({
         type: yup.mixed<Type>().oneOf(Object.values(Type)).optional(),
         name: yup.string().trim().optional(),
         status: yup.mixed<Status>().oneOf(Object.values(Status)).optional(),
-        height: yup.number().positive().optional(),
-        weight: yup.number().positive().optional(),
+        height: yup.string().trim().optional(),
+        weight: yup.string().trim().optional(),
     })
 })
