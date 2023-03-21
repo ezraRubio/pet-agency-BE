@@ -58,3 +58,11 @@ export class PetController {
     return this.petService.deletePet(petId);
   }
 }
+
+    constructor(private petService: PetService) {
+        this.router.get(pet, (req: Request, res: Response)=>{
+            console.log("req", req)
+            res.send("pet controller")
+        })
+    }
+}
