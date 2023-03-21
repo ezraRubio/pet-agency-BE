@@ -1,4 +1,4 @@
-name: ests
+name: Tests
 
 on:
   push:
