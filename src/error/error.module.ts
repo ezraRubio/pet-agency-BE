@@ -42,3 +42,23 @@ export class NotFoundError extends AppError {
     super();
   }
 }
+
+export class PermissionsError extends AppError {
+  status = 403
+  code = ErrorCodes.PERMISSION_REQUIRED;
+  type = ErrorType.FORBIDDEN
+
+  constructor() {
+    super("Access forbidden");
+  }
+}
+
+export class UnauthorizedError extends AppError {
+  status = 401
+  code = ErrorCodes.UNAUTHORIZED
+  type = ErrorType.UNAUTHORIZED
+
+  constructor () { 
+    super ("Not authorized")
+  }
+}
