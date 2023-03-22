@@ -1,0 +1,31 @@
+name: test
+
+on:
+  push:
+  workflow_call:
+    secrets:
+      TEST_DB_URI:
+        required: true
+
+
+env:
+  TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
+  NODE_ENV: test
+  NODE_OPTIONS: "--max_old_space_size=4096"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - run: npm run test
+      - run: npm run build
