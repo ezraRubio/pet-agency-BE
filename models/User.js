@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const emailRegex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 const phoneRegex = /^\d{10}$/;
 const nameRegex = /^[A-Za-z]{1,10}$/;
-const roles = ["admin", "user"];
+// const roles = ["admin", "user"];
 
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true, match: emailRegex },
