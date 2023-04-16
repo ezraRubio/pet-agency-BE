@@ -3,7 +3,10 @@ import { mapRolesToPermissions } from "./permission.mapper";
 import { Permission, Role } from "./roles";
 import { PermissionsError } from "../error/error.module";
 
-export type AuthReq = Request & { user?: { roles?: [] } };
+export type AuthReq = Request & {
+  user?: { roles?: Role[]; uid?: string };
+  tokenExp?: number;
+};
 
 export const has =
   (permissions: Permission[]) =>

@@ -1,38 +1,25 @@
-import { Request, Response, NextFunction } from "express";
-import {expressjwt} from "express-jwt";
-import jwks from "jwks-rsa";
+import config from "../config";
+import { Response, NextFunction } from "express";
 import { AuthReq } from "./permission.middleware";
+import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../error/error.module";
 
-export interface AppMiddleware {
-    (request: Request, response: Response, next: NextFunction): void;
-}
+export const auth = (req: AuthReq, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) throw new UnauthorizedError();
 
-export const createAuthMiddleware = (auth0IssuerBaseUrl: string, auth0JwtUserInfoNamespace: string): AppMiddleware => {
-    const expressJwtMiddleware = expressjwt({
-        secret: jwks.expressJwtSecret({
-          cache: true,
-          rateLimit: true,
-          jwksRequestsPerMinute: 15,
-          jwksUri: `${ auth0IssuerBaseUrl }.well-known/jwks.json`,
-        }) as jwks.GetVerificationKey,
-        algorithms: [ "RS256" ],
-    });
-
-    return async (req: AuthReq, res: Response, next: NextFunction) => {
-        await expressJwtMiddleware(req, res, (err: string | Error) => {
-          if (err) {
-            return next(new UnauthorizedError());
-          }
-      
-          req.user = {
-            ...((req as any).auth || {}),
-            ...((req as any).auth?.[auth0JwtUserInfoNamespace] || {})
-          };
-      
-          if (req.user?.roles && typeof req.user.roles === "string") req.user.roles = JSON.parse(req.user.roles);
-          
-          next();
-        })
+  jwt.verify(token, config.SECRET, (err, token: jwt.JwtPayload) => {
+    if (err) {
+      return next(new UnauthorizedError());
     }
+
+    req.tokenExp = token.exp;
+    req.user.roles = token.user.role;
+    req.user.uid = token.user.uid;
+
+    if (req.user?.roles && typeof req.user.roles === "string") req.user.roles = JSON.parse(req.user.roles);
+
+    next();
+  });
 };
