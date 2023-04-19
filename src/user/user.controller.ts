@@ -1,10 +1,3 @@
-//TODO:
-//! Get user GET
-//! Update user PUT
-//! Sign up user POST should be public endpoint
-//! Delete user DELETE
-//! login user POST should be public endpoint
-
 import { Router } from "express";
 import { UserService } from "./user.service";
 

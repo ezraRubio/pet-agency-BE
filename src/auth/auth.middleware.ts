@@ -15,8 +15,10 @@ export const auth = (req: AuthReq, res: Response, next: NextFunction): void => {
     }
 
     req.tokenExp = token.exp;
-    req.user.roles = token.user.role;
-    req.user.uid = token.user.uid;
+    req.user = {
+      roles: [token.role],
+      uid: token.uid,
+    }
 
     if (req.user?.roles && typeof req.user.roles === "string") req.user.roles = JSON.parse(req.user.roles);
 
