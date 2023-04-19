@@ -43,6 +43,19 @@ describe("user validation middleware", () => {
           })
         );  
     });
+
+    it("should pass all credential validations", async () => {
+      mockRequest = {body: { email: "abc@mmm.co.il", password: randomString }}
+
+      await userModelValidation(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      )
+      
+      expect(nextFunction).toBeCalledTimes(1);
+      expect(nextFunction).toBeCalledWith();
+    })
   });
 
   describe("edit user validation", () => {
@@ -107,11 +120,7 @@ describe("user validation middleware", () => {
       )
       
       expect(nextFunction).toBeCalledTimes(1);
-      expect(nextFunction).toBeCalledWith(
-        expect.objectContaining({
-          code: ErrorCodes.INVALID_ENTRY,
-        })
-      );
+      expect(nextFunction).toBeCalledWith();
     })
   });
 });

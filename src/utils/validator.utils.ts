@@ -7,6 +7,9 @@ import {
 import {ErrorCodes} from "../error/error.codes";
 import { ErrorType } from "../error/error.types";
 
+export const requiredString = yup.string().trim().required();
+export const optionalString = yup.string().trim().optional();
+
 function getStructuredValidationError(
   errorCode: ErrorCodes,
   error: yup.ValidationError
