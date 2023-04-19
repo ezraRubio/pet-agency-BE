@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { randomString } from "../utils";
 import { ErrorCodes } from "../../src/error/error.codes";
-import { userCredentialValidation } from "../../src/user/user.request.validator";
+import { userCredentialValidation, userModelValidation } from "../../src/user/user.request.validator";
+import { mockUser } from "./utils";
 
 describe("user validation middleware", () => {
   let mockRequest: Partial<Request>;
@@ -45,10 +46,72 @@ describe("user validation middleware", () => {
   });
 
   describe("edit user validation", () => {
-    it("should fail if the name is too long of a string", async () => {});
+    it("should fail if the name is too long of a string", async () => {
+      mockRequest = {body: {...mockUser, firstName: randomString+randomString}}
 
-    it("should fail if the last name is too long of a string", async () => {});
+      await userModelValidation(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      )
+      
+      expect(nextFunction).toBeCalledTimes(1);
+      expect(nextFunction).toBeCalledWith(
+        expect.objectContaining({
+          code: ErrorCodes.INVALID_ENTRY,
+        })
+      );
+    });
 
-    it("should fail if phone number not formatted properly", async () => {});
+    it("should fail if the last name is too long of a string", async () => {
+      mockRequest = {body: {...mockUser, lastName: randomString+randomString}}
+
+      await userModelValidation(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      )
+      
+      expect(nextFunction).toBeCalledTimes(1);
+      expect(nextFunction).toBeCalledWith(
+        expect.objectContaining({
+          code: ErrorCodes.INVALID_ENTRY,
+        })
+      );
+    });
+
+    it("should fail if phone number not formatted properly", async () => {
+      mockRequest = {body: {...mockUser, phone: randomString}}
+
+      await userModelValidation(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      )
+      
+      expect(nextFunction).toBeCalledTimes(1);
+      expect(nextFunction).toBeCalledWith(
+        expect.objectContaining({
+          code: ErrorCodes.INVALID_ENTRY,
+        })
+      );
+    });
+
+    it("should pass all validations", async () => {
+      mockRequest = {body: mockUser}
+
+      await userModelValidation(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      )
+      
+      expect(nextFunction).toBeCalledTimes(1);
+      expect(nextFunction).toBeCalledWith(
+        expect.objectContaining({
+          code: ErrorCodes.INVALID_ENTRY,
+        })
+      );
+    })
   });
 });
