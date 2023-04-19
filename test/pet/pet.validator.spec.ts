@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { mockPet, randomString } from "./utils";
+import { mockPet } from "./utils";
+import { randomString } from "../utils"
 import {
   addPetValidator,
   editPetValidator,

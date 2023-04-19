@@ -1,7 +1,6 @@
 import { Pet, Status, Type } from "../../src/pet/pet.model";
 import { v4 as uuid } from "uuid";
-
-export const randomString = Math.random().toString(36).substring(2);
+import { randomString } from "../utils";
 
 export const expectedPets: Pet[] = [
   {
