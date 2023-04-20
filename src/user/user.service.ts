@@ -11,11 +11,12 @@ import {
   UnauthorizedError,
 } from "../error/error.module";
 import { ErrorCodes } from "../error/error.codes";
+import { DuplicateEntryError } from "../error/error.module";
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  logIn = async (credentials: User): Promise<any> => {
+  logIn = async (credentials: User): Promise<string> => {
     const foundUser = await this.userRepository.findOneUser({
       email: credentials.email,
     });
@@ -38,7 +39,7 @@ export class UserService {
     return token;
   };
 
-  signUp = async (credentials: User): Promise<any> => {
+  signUp = async (credentials: User): Promise<string> => {
     const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
     const newUser: User = {
@@ -56,6 +57,34 @@ export class UserService {
         role: newUser.role,
         uid: newUser.id,
       },
+      config.SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return token;
+  };
+
+  updatePassword = async (
+    uid: string,
+    newPassword: string
+  ): Promise<string> => {
+    const foundUser = await this.userRepository.findOneUser({ id: uid });
+    if (!foundUser) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+
+    const doPasswordsMatch = await bcrypt.compare(
+      newPassword,
+      foundUser.password
+    );
+    if (doPasswordsMatch) throw new DuplicateEntryError();
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatedUser = await this.userRepository.updateOneUser(
+      { id: uid },
+      { password: newHashedPassword }
+    );
+
+    const token = jwt.sign(
+      { role: updatedUser.role, uid: updatedUser.id },
       config.SECRET,
       { expiresIn: "1h" }
     );

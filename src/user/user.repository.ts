@@ -4,9 +4,9 @@ import { User } from "./user.model";
 import { Filter, ObjectId, OptionalId } from "mongodb";
 
 export class UserRepository {
-  addNewUser = (user: OptionalId<User>): Promise<ObjectId> =>
+  addNewUser = (data: OptionalId<User>): Promise<ObjectId> =>
     Mongo.user()
-      .insertOne(user)
+      .insertOne(data)
       .then((res) => res.insertedId)
       .catch((e) => {
         throw new DuplicateEntryError();
@@ -14,4 +14,9 @@ export class UserRepository {
 
   findOneUser = (filter: Filter<User>): Promise<User> =>
     Mongo.user().findOne(filter);
+
+  updateOneUser = (filter: Filter<User>, data: Partial<User>): Promise<User> =>
+    Mongo.user()
+      .findOneAndUpdate(filter, { $set: data }, { returnDocument: "after" })
+      .then((res) => res.value);
 }

@@ -19,3 +19,9 @@ export const userSchema = yup.object({
         bio: optionalString.max(200),
     })
 });
+
+export const updatePasswordSchema = yup.object({
+  body: yup.object({
+    password: requiredString
+  })
+})
