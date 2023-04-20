@@ -9,9 +9,13 @@ on:
 
 
 env:
-  TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
+  TEST_DB: ${{ secrets.TEST_DB }}
   PORT: ${{ secrets.PORT }}
-  ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+  URI: ${{ secrets.URI }}
+  SECRET: ${{ secrets.SECRET }}
+  CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+  CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
+  CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
   NODE_ENV: test
   NODE_OPTIONS: "--max_old_space_size=4096"
 
