@@ -14,12 +14,16 @@ export class UserRepository {
 
   findOneUser = (filter: Filter<User>, withPassword?: boolean): Promise<User> =>
     Mongo.user().findOne(filter, {
-      projection: { password: withPassword ? 1 : 0 },
+      projection: { password: withPassword ? 1 : 0, _id: 0 },
     });
 
   updateOneUser = (filter: Filter<User>, data: Partial<User>): Promise<User> =>
     Mongo.user()
-      .findOneAndUpdate(filter, { $set: data }, { returnDocument: "after" })
+      .findOneAndUpdate(
+        filter,
+        { $set: data },
+        { returnDocument: "after", projection: { password: 0, _id: 0 } }
+      )
       .then((res) => res.value);
 
   removeOneUser = (filter: Filter<User>): Promise<number> =>
