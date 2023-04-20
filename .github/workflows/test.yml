@@ -11,6 +11,7 @@ on:
 env:
   TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
   PORT: ${{ secrets.PORT }}
+  ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
   NODE_ENV: test
   NODE_OPTIONS: "--max_old_space_size=4096"
 
