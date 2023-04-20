@@ -4,7 +4,6 @@ import {
   DuplicateEntryError,
   NotFoundError,
 } from "../../src/error/error.module";
-import { ErrorType } from "../../src/error/error.types";
 import { ErrorCodes } from "../../src/error/error.codes";
 import { expectedPets, aPet } from "./utils";
 import { PetRepository } from "../../src/pet/pet.repository";

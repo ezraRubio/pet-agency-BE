@@ -9,10 +9,10 @@ on:
 
 
 env:
-  TEST_DB: ${{ secrets.TEST_DB }}
+  TEST_DB_URI: ${{ secrets.TEST_DB }}
   PORT: ${{ secrets.PORT }}
-  URI: ${{ secrets.URI }}
-  SECRET: ${{ secrets.SECRET }}
+  MONGO_URI: ${{ secrets.URI }}
+  JWT_SECRET: ${{ secrets.SECRET }}
   CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
   CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
   CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
