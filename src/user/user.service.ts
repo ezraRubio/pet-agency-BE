@@ -68,7 +68,7 @@ export class UserService {
     uid: string,
     newPassword: string
   ): Promise<string> => {
-    const foundUser = await this.userRepository.findOneUser({ id: uid });
+    const foundUser = await this.userRepository.findOneUser({ id: uid }, true);
     if (!foundUser) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
 
     const doPasswordsMatch = await bcrypt.compare(
