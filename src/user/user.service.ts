@@ -16,7 +16,7 @@ import { DuplicateEntryError } from "../error/error.module";
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  logIn = async (credentials: User): Promise<string> => {
+  logIn = async (credentials: User): Promise<{token:string, role:Role, uid:string}> => {
     const foundUser = await this.userRepository.findOneUser({
       email: credentials.email,
     });
@@ -36,10 +36,10 @@ export class UserService {
       }
     );
 
-    return token;
+    return {token, role: foundUser.role, uid: foundUser.id};
   };
 
-  signUp = async (credentials: User): Promise<string> => {
+  signUp = async (credentials: User): Promise<{token:string, role:Role, uid:string}> => {
     const hashedPassword = await bcrypt.hash(credentials.password, 10);
 
     const newUser: User = {
@@ -61,7 +61,7 @@ export class UserService {
       { expiresIn: "1h" }
     );
 
-    return token;
+    return {token, role: newUser.role, uid: newUser.id};
   };
 
   updatePassword = async (
