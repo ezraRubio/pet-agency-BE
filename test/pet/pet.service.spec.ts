@@ -75,7 +75,7 @@ describe("Pet Service", () => {
       const id = "nonexistent";
 
       await expect(petService.getSinglePet(id)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     });
   });
@@ -93,7 +93,7 @@ describe("Pet Service", () => {
       const id = "nonexistent";
 
       await expect(petService.deletePet(id)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     });
   });
@@ -115,7 +115,7 @@ describe("Pet Service", () => {
   describe("editPet", () => {
     it("should throw an error when pet to be edited is not found",  async () => {
       await expect(petService.editPet("nonexistent", aPet)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     })
 
