@@ -13,7 +13,7 @@ export class LogInController {
       logIn,
       userCredentialValidation,
       (req: Request, res: Response, next: NextFunction) =>
-        this.userLogIn(req.body).then(token => res.json(token)).catch((e) => next(e))
+        this.userLogIn(req.body).then(user => res.json(user)).catch((e) => next(e))
     );
   }
 
