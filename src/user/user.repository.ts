@@ -13,10 +13,13 @@ export class UserRepository {
       });
 
   findOneUser = (filter: Filter<User>): Promise<User> =>
-    Mongo.user().findOne(filter);
+    Mongo.user().findOne(filter, {projection: {password: 0}});
 
   updateOneUser = (filter: Filter<User>, data: Partial<User>): Promise<User> =>
     Mongo.user()
       .findOneAndUpdate(filter, { $set: data }, { returnDocument: "after" })
       .then((res) => res.value);
+
+  removeOneUser = (filter: Filter<User>): Promise<number> => 
+    Mongo.user().deleteOne(filter).then(result=>result.deletedCount)
 }

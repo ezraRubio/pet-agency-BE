@@ -91,4 +91,31 @@ export class UserService {
 
     return token;
   };
+
+  updateUser = async (uid: string, data: Partial<User>): Promise<User> => {
+    const updatedUser = await this.userRepository.updateOneUser(
+      { id: uid },
+      data
+    );
+
+    if (!updatedUser) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+
+    return updatedUser;
+  };
+
+  getSingleUser = async (id: string): Promise<User> => {
+    const foundUser = await this.userRepository.findOneUser({ id });
+
+    if (!foundUser) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+
+    return foundUser;
+  };
+
+  deleteUser = async (id: string): Promise<boolean> => {
+    const isDeleted = await this.userRepository.removeOneUser({ id });
+
+    if (!isDeleted) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+
+    return !!isDeleted;
+  };
 }

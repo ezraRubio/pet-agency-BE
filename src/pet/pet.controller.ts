@@ -38,7 +38,7 @@ export class PetController implements Controller {
       petById,
       (req: Request, res: Response, next: NextFunction) =>
         this.deleteExistingPet(req.params.id)
-          .then((succeed) => succeed)
+          .then((succeed) => res.json(succeed))
           .catch((err) => next(err))
     );
   }
