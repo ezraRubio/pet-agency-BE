@@ -61,7 +61,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
-      "yarn eslint --max-warnings=0",
+      "npm eslint --max-warnings=0",
       "tsc-files --noEmit",
       "prettier src/** --write",
       "git add ."
