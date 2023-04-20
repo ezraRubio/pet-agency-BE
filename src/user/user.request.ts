@@ -7,7 +7,7 @@ const emailRegex =
 export const credentialsSchema = yup.object({
   body: yup.object({
     email: requiredString.matches(emailRegex, "Invalid email format"),
-    password: requiredString,
+    password: requiredString.min(6, "Password needs to have minium of 6 characters"),
   }),
 });
 

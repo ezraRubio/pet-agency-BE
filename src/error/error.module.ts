@@ -38,7 +38,8 @@ export class DuplicateEntryError extends AppError {
 
 export class NotFoundError extends AppError {
   status = 404;
-  constructor(public code: ErrorCodes, public type: ErrorType) {
+  type = ErrorType.NOT_FOUND
+  constructor(public code: ErrorCodes) {
     super();
   }
 }

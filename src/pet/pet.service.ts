@@ -28,7 +28,7 @@ export class PetService {
     const singlePet = await this.petRepository.findSinglePet({ id });
 
     if (!singlePet)
-      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
+      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND);
 
     return singlePet;
   };
@@ -45,7 +45,7 @@ export class PetService {
     const editedPet = await this.petRepository.editSinglePet({ id }, data);
 
     if (!editedPet)
-      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
+      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND);
 
     return editedPet;
   };
@@ -54,7 +54,7 @@ export class PetService {
     const isDeleted = await this.petRepository.removePet({ id });
 
     if (!isDeleted)
-      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND);
+      throw new NotFoundError(ErrorCodes.PET_NOT_FOUND);
 
     return !!isDeleted;
   };

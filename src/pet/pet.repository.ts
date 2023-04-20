@@ -1,4 +1,4 @@
-import { Filter, InsertOneResult, ObjectId, OptionalId } from "mongodb";
+import { Filter, ObjectId, OptionalId } from "mongodb";
 import { DuplicateEntryError } from "../error/error.module";
 import { Mongo } from "../db/mongo";
 import { Pet } from "./pet.model";

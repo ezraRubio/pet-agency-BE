@@ -8,12 +8,12 @@ export const auth = (req: AuthReq, res: Response, next: NextFunction): void => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) throw new UnauthorizedError();
-
+// console.log("before verify", token)
   jwt.verify(token, config.SECRET, (err, token: jwt.JwtPayload) => {
     if (err) {
       return next(new UnauthorizedError());
     }
-
+// console.log("verified", token)
     req.tokenExp = token.exp;
     req.user = {
       roles: [token.role],

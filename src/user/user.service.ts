@@ -4,21 +4,62 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import { Role } from "../auth/roles";
 import * as bcrypt from "bcrypt";
+import { v4 as uuid } from "uuid";
+import {
+  AppError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../error/error.module";
+import { ErrorCodes } from "../error/error.codes";
 
 export class UserService {
-    constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
-    logIn(user:User): Promise<any> {
-        user.role = Role.CLIENT
-        user.id = "123"
-        const token = jwt.sign({role:user.role, uid:user.id}, config.SECRET, {expiresIn: "1h"})
-        console.log("token", token)
-        return Promise.resolve(token)
-    }
+  logIn = async (credentials: User): Promise<any> => {
+    const foundUser = await this.userRepository.findOneUser({
+      email: credentials.email,
+    });
+    if (!foundUser) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
 
-    signUp(credentials:User): Promise<any> {
-        console.log(credentials)
-        const hashedPassword = bcrypt.hash(credentials.password, 10).then(hashed=>hashed)
-        return Promise.resolve()
-    }
+    const doPasswordsMatch = await bcrypt.compare(
+      credentials.password,
+      foundUser.password
+    );
+    if (!doPasswordsMatch) throw new UnauthorizedError();
+
+    const token = jwt.sign(
+      { role: foundUser.role, uid: foundUser.id },
+      config.SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return token;
+  };
+
+  signUp = async (credentials: User): Promise<any> => {
+    const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
+    const newUser: User = {
+      email: credentials.email,
+      password: hashedPassword,
+      id: uuid(),
+      role: Role.CLIENT,
+    };
+
+    const isInserted = await this.userRepository.addNewUser(newUser);
+    if (!isInserted) throw new AppError("ups, something happened");
+
+    const token = jwt.sign(
+      {
+        role: newUser.role,
+        uid: newUser.id,
+      },
+      config.SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return token;
+  };
 }
