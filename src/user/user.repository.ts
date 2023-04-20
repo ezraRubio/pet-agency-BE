@@ -12,14 +12,18 @@ export class UserRepository {
         throw new DuplicateEntryError();
       });
 
-  findOneUser = (filter: Filter<User>): Promise<User> =>
-    Mongo.user().findOne(filter, {projection: {password: 0}});
+  findOneUser = (filter: Filter<User>, withPassword?: boolean): Promise<User> =>
+    Mongo.user().findOne(filter, {
+      projection: { password: withPassword ? 1 : 0 },
+    });
 
   updateOneUser = (filter: Filter<User>, data: Partial<User>): Promise<User> =>
     Mongo.user()
       .findOneAndUpdate(filter, { $set: data }, { returnDocument: "after" })
       .then((res) => res.value);
 
-  removeOneUser = (filter: Filter<User>): Promise<number> => 
-    Mongo.user().deleteOne(filter).then(result=>result.deletedCount)
+  removeOneUser = (filter: Filter<User>): Promise<number> =>
+    Mongo.user()
+      .deleteOne(filter)
+      .then((result) => result.deletedCount);
 }
