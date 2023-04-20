@@ -4,21 +4,19 @@ import {
   DuplicateEntryError,
   NotFoundError,
 } from "../../src/error/error.module";
-import { ErrorType } from "../../src/error/error.types";
 import { ErrorCodes } from "../../src/error/error.codes";
 import { expectedPets, aPet } from "./utils";
 import { PetRepository } from "../../src/pet/pet.repository";
 import { Mongo } from "../../src/db/mongo";
-// import config from "../../src/config";
-import {config} from "dotenv";
+import config from "../../src/config";
 import { Status } from "../../src/pet/pet.model";
-config()
+
 describe("Pet Service", () => {
   const petRepository = new PetRepository();
   const petService = new PetService(petRepository);
 
   beforeAll(async () => {
-    await Mongo.connect(process.env.TEST_DB_URI as string);
+    await Mongo.connect(config.TEST_DB);
     await Mongo.pet().insertMany(expectedPets);
   });
   afterAll(async () => {
@@ -76,7 +74,7 @@ describe("Pet Service", () => {
       const id = "nonexistent";
 
       await expect(petService.getSinglePet(id)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     });
   });
@@ -94,7 +92,7 @@ describe("Pet Service", () => {
       const id = "nonexistent";
 
       await expect(petService.deletePet(id)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     });
   });
@@ -116,7 +114,7 @@ describe("Pet Service", () => {
   describe("editPet", () => {
     it("should throw an error when pet to be edited is not found",  async () => {
       await expect(petService.editPet("nonexistent", aPet)).rejects.toThrowError(
-        new NotFoundError(ErrorCodes.PET_NOT_FOUND, ErrorType.NOT_FOUND)
+        new NotFoundError(ErrorCodes.PET_NOT_FOUND)
       );
     })
 

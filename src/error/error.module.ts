@@ -38,7 +38,28 @@ export class DuplicateEntryError extends AppError {
 
 export class NotFoundError extends AppError {
   status = 404;
-  constructor(public code: ErrorCodes, public type: ErrorType) {
+  type = ErrorType.NOT_FOUND
+  constructor(public code: ErrorCodes) {
     super();
+  }
+}
+
+export class PermissionsError extends AppError {
+  status = 403
+  code = ErrorCodes.PERMISSION_REQUIRED;
+  type = ErrorType.FORBIDDEN
+
+  constructor() {
+    super("Access forbidden");
+  }
+}
+
+export class UnauthorizedError extends AppError {
+  status = 401
+  code = ErrorCodes.UNAUTHORIZED
+  type = ErrorType.UNAUTHORIZED
+
+  constructor () { 
+    super ("Not authorized")
   }
 }

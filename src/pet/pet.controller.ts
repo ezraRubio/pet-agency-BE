@@ -2,11 +2,12 @@ import { NextFunction, Request, Response, Router } from "express";
 import { Pet } from "./pet.model";
 import { addPetValidator, editPetValidator } from "./pet.request.validator";
 import { PetService } from "./pet.service";
+import { Controller } from "../controller";
 
 const pet = "/pet";
 const petById = "/pet/:id";
 
-export class PetController {
+export class PetController implements Controller {
   router = Router();
 
   constructor(private petService: PetService) {
@@ -14,7 +15,7 @@ export class PetController {
       petById,
       (req: Request, res: Response, next: NextFunction) =>
         this.getPetById(req.params.id)
-          .then((pet) => pet)
+          .then((pet) => res.json(pet))
           .catch((err) => next(err))
     );
     this.router.post(
@@ -22,7 +23,7 @@ export class PetController {
       addPetValidator,
       (req: Request, res: Response, next: NextFunction) =>
         this.addNewPet(req.body)
-          .then((pet) => pet)
+          .then((pet) => res.json(pet))
           .catch((err) => next(err))
     );
     this.router.put(
@@ -30,14 +31,14 @@ export class PetController {
       editPetValidator,
       (req: Request, res: Response, next: NextFunction) =>
         this.editExistingPet(req.params.id, req.body)
-          .then((pet) => pet)
+          .then((pet) => res.json(pet))
           .catch((err) => next(err))
     );
     this.router.delete(
       petById,
       (req: Request, res: Response, next: NextFunction) =>
         this.deleteExistingPet(req.params.id)
-          .then((succeed) => succeed)
+          .then((succeed) => res.json(succeed))
           .catch((err) => next(err))
     );
   }

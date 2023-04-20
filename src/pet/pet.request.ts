@@ -1,8 +1,6 @@
 import * as yup from "yup";
 import { Status, Type } from "./pet.model";
-
-const requiredString = yup.string().trim().required();
-const optionalString = yup.string().trim().optional();
+import {requiredString, optionalString} from "../utils/validator.utils"
 
 export const searchSchema = yup.object({
   query: yup.object({
