@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 
 const savePet = "/pet/:id/save";
 const adoptPet = "/pet/:id/adopt";
+const userPet = "/user/:id/pets";
 
 export class UserPetController implements Controller {
   router = Router();
@@ -39,6 +40,13 @@ export class UserPetController implements Controller {
           .then((pet) => res.json(pet))
           .catch((e) => next(e))
     );
+    this.router.get(
+      userPet,
+      (req: AuthReq, res: Response, next: NextFunction) =>
+      this.getUserPets(req.user.uid)
+        .then((pets) => res.json(pets))
+        .catch((e) => next(e))
+    )
   }
 
   savePet(petId: string, userId: string) {
@@ -55,5 +63,9 @@ export class UserPetController implements Controller {
 
   unAdoptPet(petId: string, userId: string) {
     return this.userPetService.returnPet(new ObjectId(petId), userId);
+  }
+
+  getUserPets(userId: string) {
+    return this.userPetService.getUserPets(userId)
   }
 }

@@ -17,7 +17,6 @@ export const httpErrorHandler: ErrorHandler = (
   response: Response,
   next: NextFunction
 ) => {
-  console.log("err", error)
   const status = (error as AppError)?.status || 500;
   const { code, details, errors } = error;
 

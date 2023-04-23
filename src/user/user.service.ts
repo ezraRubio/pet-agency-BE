@@ -118,4 +118,11 @@ export class UserService {
 
     return !!isDeleted;
   };
+
+  getUsers = async (): Promise<User[]> => {
+    const users = await this.userRepository.findAllOrFail()
+    if (!users) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND)
+
+    return users
+  }
 }

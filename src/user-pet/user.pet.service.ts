@@ -3,7 +3,7 @@ import { Pet, Status } from "../pet/pet.model";
 import { UserPetRepository } from "./user.pet.repository";
 import { NotFoundError } from "../error/error.module";
 import { ErrorCodes } from "../error/error.codes";
-import { ObjectId } from "mongodb";
+import { Document, ObjectId } from "mongodb";
 
 export class UserPetService {
   constructor(
@@ -82,5 +82,14 @@ export class UserPetService {
     if (!userPets) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
 
     return userPets.adoptedPets;
+  };
+
+  getUserPets = async (userId: string): Promise<Document> => {
+    const userPets = await this.userPetRepository.retrieveUserPets({
+      id: userId,
+    });
+    if (!userPets) throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+
+    return userPets;
   };
 }

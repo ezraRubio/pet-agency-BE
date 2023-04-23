@@ -45,6 +45,13 @@ export class UserController implements Controller {
           .then((succeed) => res.json(succeed))
           .catch((e) => next(e))
     );
+    this.router.get(
+      "/user",
+      (req: Request, res: Response, next: NextFunction) =>
+      this.getAllUsers()
+        .then((succeed) => res.json(succeed))
+        .catch((e) => next(e))
+    )
   }
 
   getUserById(id: string) {
@@ -61,5 +68,9 @@ export class UserController implements Controller {
 
   deleteUser(id: string) {
     return this.userService.deleteUser(id);
+  }
+
+  getAllUsers() {
+    return this.userService.getUsers();
   }
 }
