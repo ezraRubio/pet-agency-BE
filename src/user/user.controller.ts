@@ -6,11 +6,12 @@ import {
 } from "./user.request.validator";
 import { AuthReq } from "../auth/permission.middleware";
 import { User } from "./user.model";
+import { Controller } from "../controller";
 
 const userById = "/user/:id";
 const updatePassword = "/password";
 
-export class UserController {
+export class UserController implements Controller {
   router = Router();
 
   constructor(private userService: UserService) {
@@ -44,6 +45,13 @@ export class UserController {
           .then((succeed) => res.json(succeed))
           .catch((e) => next(e))
     );
+    this.router.get(
+      "/user",
+      (req: Request, res: Response, next: NextFunction) =>
+      this.getAllUsers()
+        .then((succeed) => res.json(succeed))
+        .catch((e) => next(e))
+    )
   }
 
   getUserById(id: string) {
@@ -60,5 +68,9 @@ export class UserController {
 
   deleteUser(id: string) {
     return this.userService.deleteUser(id);
+  }
+
+  getAllUsers() {
+    return this.userService.getUsers();
   }
 }

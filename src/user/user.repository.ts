@@ -1,7 +1,8 @@
-import { DuplicateEntryError } from "../error/error.module";
+import { DuplicateEntryError, NotFoundError } from "../error/error.module";
 import { Mongo } from "../db/mongo";
 import { User } from "./user.model";
 import { Filter, ObjectId, OptionalId } from "mongodb";
+import { ErrorCodes } from "../error/error.codes";
 
 export class UserRepository {
   addNewUser = (data: OptionalId<User>): Promise<ObjectId> =>
@@ -12,9 +13,12 @@ export class UserRepository {
         throw new DuplicateEntryError();
       });
 
-  findOneUser = (filter: Filter<User>, withPassword?: boolean): Promise<User> =>
+  findOneUser = (
+    filter: Filter<User>,
+    withoutPassword?: boolean
+  ): Promise<User> =>
     Mongo.user().findOne(filter, {
-      projection: { password: withPassword ? 1 : 0, _id: 0 },
+      projection: { password: withoutPassword && 0, _id: 0 },
     });
 
   updateOneUser = (filter: Filter<User>, data: Partial<User>): Promise<User> =>
@@ -30,4 +34,13 @@ export class UserRepository {
     Mongo.user()
       .deleteOne(filter)
       .then((result) => result.deletedCount);
+
+  findAllOrFail = (): Promise<User[]> =>
+    Mongo.user()
+      .find()
+      .toArray()
+      .then((res) => res)
+      .catch((e) => {
+        throw new NotFoundError(ErrorCodes.USER_NOT_FOUND);
+      });
 }

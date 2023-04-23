@@ -2,10 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { UserService } from "./user.service";
 import { userCredentialValidation } from "./user.request.validator";
 import { User } from "./user.model";
+import { Controller } from "../controller";
 
 const signUp = "/sign_up";
 
-export class SignUpController {
+export class SignUpController implements Controller{
   router = Router();
 
   constructor(private userService: UserService) {
