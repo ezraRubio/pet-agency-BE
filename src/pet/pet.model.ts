@@ -1,4 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface Pet {
+    _id?: ObjectId;
     id: string;
     type: Type,
     name: string,

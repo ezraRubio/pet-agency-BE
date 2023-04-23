@@ -1,5 +1,5 @@
+import { ObjectId } from "mongodb";
 import { Role } from "../auth/roles";
-import { Pet } from "../pet/pet.model";
 
 export interface User {
     id: string;
@@ -10,6 +10,6 @@ export interface User {
     phone?: string;
     role?: Role;
     bio?: string;
-    savedPets?: Pet[];
-    adoptedPets?: Pet[];
+    savedPets?: ObjectId[];
+    adoptedPets?: ObjectId[];
 }
