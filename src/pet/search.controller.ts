@@ -3,10 +3,11 @@ import { Status, Type } from "./pet.model";
 import { searchQueryValidator } from "./pet.request.validator";
 import { PetService } from "./pet.service";
 import { SearchDTO } from "./pet.types";
+import { Controller } from "../controller";
 
 const search = "/search";
 
-export class SearchController {
+export class SearchController implements Controller {
   router = Router();
 
   constructor(private petService: PetService) {

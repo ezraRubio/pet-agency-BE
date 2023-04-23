@@ -6,11 +6,12 @@ import {
 } from "./user.request.validator";
 import { AuthReq } from "../auth/permission.middleware";
 import { User } from "./user.model";
+import { Controller } from "../controller";
 
 const userById = "/user/:id";
 const updatePassword = "/password";
 
-export class UserController {
+export class UserController implements Controller {
   router = Router();
 
   constructor(private userService: UserService) {
