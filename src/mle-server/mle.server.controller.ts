@@ -6,8 +6,6 @@ export class MleServerController implements Controller {
   router = Router();
 
   constructor(private service: MleServerService) {
-    this.router.get("/", (req: Request, res: Response) => res.json("up"));
-
     this.router.get(
       "/swift-project/:type",
       (req: Request, res: Response, next: NextFunction) => {
