@@ -1,9 +1,9 @@
-import {config} from 'dotenv';
+import { config } from "dotenv";
 
 try {
-    config();
+  config();
 } catch (e) {
-    console.error("no env", e);
+  console.error("no env", e);
 }
 
 const appConfig = {
@@ -14,28 +14,33 @@ const appConfig = {
   CLOUDINARY_NAME: process.env.CLOUDINARY_NAME as string,
   CLOUDINARY_KEY: process.env.CLOUDINARY_KEY as string,
   CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET as string,
-  TEST_DB: process.env.TEST_DB_URI as string
-}
+  TEST_DB: process.env.TEST_DB_URI as string,
+  CLIENT_ID: process.env.CLIENT_ID as string,
+  CLIENT_SECRET: process.env.CLIENT_SECRET as string,
+};
 
 try {
-    appConfig.ALLOWED_ORIGINS = JSON.parse(appConfig.ALLOWED_ORIGINS);
+  appConfig.ALLOWED_ORIGINS = JSON.parse(appConfig.ALLOWED_ORIGINS);
 } catch (e) {
-    console.log(`failed to parse ALLOWED_ORIGINS: ${appConfig.ALLOWED_ORIGINS}`, e);
-}   
+  console.log(
+    `failed to parse ALLOWED_ORIGINS: ${appConfig.ALLOWED_ORIGINS}`,
+    e,
+  );
+}
 
 function envGuard(configObject: typeof appConfig) {
-    Object.keys(configObject).forEach((key) => {
-        if (configObject[key] === undefined) {
-        const errorMessage = `Missing ENV configuration for: "${key}"`;
+  Object.keys(configObject).forEach((key) => {
+    if (configObject[key] === undefined) {
+      const errorMessage = `Missing ENV configuration for: "${key}"`;
 
-        const error = new Error(errorMessage);
+      const error = new Error(errorMessage);
 
-        console.error(errorMessage, error);
-        throw error;
-        }
-    });
+      console.error(errorMessage, error);
+      throw error;
+    }
+  });
 
-    return configObject;
+  return configObject;
 }
 
 export default envGuard(appConfig);
