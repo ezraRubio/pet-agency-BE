@@ -12,8 +12,6 @@ import { SignUpController } from "./user/user.signup.controller";
 import { UserPetController } from "./user-pet/user.pet.controller";
 import { UserPetService } from "./user-pet/user.pet.service";
 import { UserPetRepository } from "./user-pet/user.pet.repository";
-import { MleServerService } from "./mle-server/mle.server.service";
-import { MleServerController } from "./mle-server/mle.server.controller";
 
 //Repositories:
 const petRepository = new PetRepository();
@@ -24,7 +22,6 @@ const userPetRepository = new UserPetRepository();
 const petService = new PetService(petRepository);
 const userService = new UserService(userRepository);
 const userPetService = new UserPetService(userPetRepository, petRepository);
-const mleServerService = new MleServerService();
 
 //Controllers:
 const petController = new PetController(petService);
@@ -34,7 +31,6 @@ const logInController = new LogInController(userService);
 const signUpController = new SignUpController(userService);
 const userPetController = new UserPetController(userPetService);
 const healthController = new HealthController();
-const mleServerController = new MleServerController(mleServerService);
 
 export const UnprotectedControllers = [
   logInController,
