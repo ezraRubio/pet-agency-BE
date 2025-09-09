@@ -68,5 +68,8 @@
     "*.{js,md}": "prettier --write"
   },
   "author": "ezra rubio",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.17.1"
+  }
 }
